@@ -151,7 +151,7 @@ with st.form("self_check"):
         shuffled = [options[j] for j in st.session_state.order[idx]]
         texts = [t for t, _ in shuffled]
         choice = st.radio(f"{label} *", texts, index=None, key=f"q{idx}")
-        answers[idx] = next((g for t, g in shuffled if t == choice), None)
+        answers[idx] = next(((t, g) for t, g in shuffled if t == choice), None)
 
     st.markdown("---")
     rating = st.slider("Please rate the session on the scale of 1-10 (10 being the highest)",
@@ -188,7 +188,7 @@ if submitted:
                 for q in unanswered:
                     st.write("• " + q)
     else:
-        gunas = [sleep_guna] + list(answers.values())
+        gunas = [sleep_guna] + [g for _, g in answers.values()]
         total = len(gunas)
         pct = {k: round(100 * gunas.count(k) / total, 1) for k in (G, P, I)}
 
@@ -220,7 +220,8 @@ if submitted:
             "timestamp": datetime.now().isoformat(timespec="seconds"),
             "email": email, "name": name, "department": department,
             "sleep": sleep_choice,
-            **{f"q{i+1}_{QUESTIONS[i][0][:30]}": g for i, g in answers.items()},
+            **{f"q{i+1}_{QUESTIONS[i][0][:30]}": (answers[i][0] if answers[i] else "")
+              for i in answers},
             "session_rating": rating, "liked": liked, "more_sessions": more, "comments": comments,
             "goodness_pct": pct[G], "passion_pct": pct[P], "ignorance_pct": pct[I],
         }
