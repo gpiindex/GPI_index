@@ -105,19 +105,7 @@ QUESTIONS = [
         ("Not really", I)]),
 ]
 
-DEPARTMENTS = ["Select...", "Engineering", "Science", "Commerce", "Arts",
-               "Management", "Medical", "Law", "Other"]
-
-
-def sleep_guna(hours: float) -> str:
-    """Heuristic mapping of total sleep to a guna."""
-    if hours < 5:
-        return P
-    if hours <= 7:
-        return G
-    if hours <= 9:
-        return P
-    return I
+SLEEP_OPTIONS = [("6-8 hrs", G), ("less than 5 hrs", P), ("more than 8 hrs", I)]
 
 
 # Shuffle option order once per session so the 'good' option isn't always first
@@ -140,10 +128,10 @@ st.caption("* Required")
 with st.form("self_check"):
     email = st.text_input("Email *")
     name = st.text_input("Name *")
-    department = st.selectbox("Department *", DEPARTMENTS)
-    sleep_hours = st.number_input(
-        "Total sleep in a day (hours) *", min_value=0.0, max_value=24.0,
-        value=7.0, step=0.5)
+    department = st.text_input("Department *")
+    sleep_choice = st.radio("Total sleep in a day *",
+                            [t for t, _ in SLEEP_OPTIONS], index=None)
+    sleep_guna = next((g for t, g in SLEEP_OPTIONS if t == sleep_choice), None)
 
     st.markdown("---")
     answers = {}
@@ -156,7 +144,7 @@ with st.form("self_check"):
     st.markdown("---")
     liked = st.text_area("Which points from today's session did you like or find meaningful? *")
     more = st.radio("Would you like more sessions like this? *",
-                    ["Yes", "Maybe", "No"], index=None, horizontal=True)
+                    ["Yes", "Maybe", "No"], horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
 
     submitted = st.form_submit_button("Submit")
@@ -167,15 +155,15 @@ if submitted:
         errors.append("a valid email")
     if not name.strip():
         errors.append("your name")
-    if department == "Select...":
-        errors.append("department")
+    if not department.strip():
+        errors.append("your department")
     unanswered = [QUESTIONS[i][0] for i, g in answers.items() if g is None]
     if unanswered:
         errors.append(f"{len(unanswered)} unanswered question(s)")
     if not liked.strip():
         errors.append("what you liked from the session")
-    if more is None:
-        errors.append("whether you'd like more sessions")
+    if sleep_guna is None:
+        errors.append("your total sleep")
 
     if errors:
         st.error("Please complete: " + ", ".join(errors) + ".")
@@ -184,7 +172,7 @@ if submitted:
                 for q in unanswered:
                     st.write("• " + q)
     else:
-        gunas = [sleep_guna(sleep_hours)] + list(answers.values())
+        gunas = [sleep_guna] + list(answers.values())
         total = len(gunas)
         pct = {k: round(100 * gunas.count(k) / total, 1) for k in (G, P, I)}
 
@@ -215,7 +203,7 @@ if submitted:
         row = {
             "timestamp": datetime.now().isoformat(timespec="seconds"),
             "email": email, "name": name, "department": department,
-            "sleep_hours": sleep_hours,
+            "sleep": sleep_choice,
             **{f"q{i+1}_{QUESTIONS[i][0][:30]}": g for i, g in answers.items()},
             "liked": liked, "more_sessions": more, "comments": comments,
             "goodness_pct": pct[G], "passion_pct": pct[P], "ignorance_pct": pct[I],
