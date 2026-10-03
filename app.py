@@ -111,7 +111,7 @@ QUESTIONS = [
         ("I study regularly and enjoy it", G),
         ("Occasionally, mostly out of curiosity or duty", P),
         ("Hardly ever, it feels boring", I)]),
-    ("It is pleasing to me to pray or meditate and I feel calm after doing so.", [
+    ("It is pleasing to me to pray, meditate or contemplate and I feel calm after doing so.", [
         ("Strongly agree", G),
         ("Sometimes", P),
         ("Not really", I)]),
