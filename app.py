@@ -258,6 +258,8 @@ if submitted:
                 ws = sh.sheet1
                 if not ws.get_all_values():
                     ws.append_row(list(row.keys()))
-                ws.append_row([row[k] for k in list(row.keys())])
+                ws.append_row([row[k] for k in list(row.keys())],
+                              value_input_option="USER_ENTERED",
+                              insert_data_option="INSERT_ROWS")
             except Exception as e:
                 st.warning(f"Could not save to Google Sheet: {e}")
