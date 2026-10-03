@@ -107,7 +107,7 @@ QUESTIONS = [
         ("Yes, very much", G),
         ("Sometimes, when I have time", P),
         ("Not really", I)]),
-    ("Studying the Holy Scriptures", [
+    ("Studying wisdom literatures", [
         ("I study regularly and enjoy it", G),
         ("Occasionally, mostly out of curiosity or duty", P),
         ("Hardly ever, it feels boring", I)]),
