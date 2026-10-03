@@ -158,7 +158,7 @@ with st.form("self_check"):
                        min_value=1, max_value=10, value=10)
     liked = st.text_area("Share a few points from today's session that you liked or found meaningful *")
     more = st.radio("Would you like to attend more sessions like this? *",
-                    ["Yes", "Maybe"], horizontal=True)
+                    ["Yes", "Maybe"], index=None, horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
 
     submitted = st.form_submit_button("Submit")
@@ -178,6 +178,8 @@ if submitted:
         errors.append("what you liked from the session")
     if sleep_guna is None:
         errors.append("your total sleep")
+    if more is None:
+        errors.append("whether you'd like to attend more sessions")
 
     if errors:
         st.error("Please complete: " + ", ".join(errors) + ".")
