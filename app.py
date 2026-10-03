@@ -237,10 +237,13 @@ if submitted:
             import json as _json
             import urllib.request
             try:
+                qa = "\n".join(f"{i+1}. {QUESTIONS[i][0]}: {answers[i][0]}"
+                               for i in answers if answers[i])
                 text = (f"*New GPI response*\n*Name:* {name} ({email})\n"
                         f"*Department:* {department} | *Sleep:* {sleep_choice}\n"
                         f"*Rating:* {rating}/10\n"
-                        f"*Goodness:* {pct[G]}% | *Passion:* {pct[P]}% | *Ignorance:* {pct[I]}%")
+                        f"*Goodness:* {pct[G]}% | *Passion:* {pct[P]}% | *Ignorance:* {pct[I]}%\n"
+                        f"\n*Answers:*\n{qa}")
                 req = urllib.request.Request(
                     st.secrets["slack"]["webhook_url"],
                     data=_json.dumps({"text": text}).encode(),
