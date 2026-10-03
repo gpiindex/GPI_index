@@ -226,3 +226,14 @@ if submitted:
             if new_file:
                 w.writeheader()
             w.writerow(row)
+
+        # Persist to Google Sheets if secrets are configured
+        if "gspread" in st.secrets:
+            import gspread
+            gc = gspread.service_account_from_dict(st.secrets["gspread"])
+            sh = gc.open(st.secrets["gspread"]["sheet_name"])
+            try:
+                ws = sh.sheet1
+                ws.append_row([row[k] for k in list(row.keys())])
+            except Exception:
+                pass
