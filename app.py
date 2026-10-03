@@ -256,6 +256,8 @@ if submitted:
             sh = gc.open(st.secrets["gspread"]["sheet_name"])
             try:
                 ws = sh.sheet1
+                if not ws.get_all_values():
+                    ws.append_row(list(row.keys()))
                 ws.append_row([row[k] for k in list(row.keys())])
             except Exception:
                 pass
