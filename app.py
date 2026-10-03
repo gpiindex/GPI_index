@@ -155,7 +155,7 @@ with st.form("self_check"):
 
     st.markdown("---")
     liked = st.text_area("Share a few points from today's session that you liked or found meaningful *")
-    more = st.radio("Would you like more sessions like this? *",
+    more = st.radio("Would you like to attend more sessions like this? *",
                     ["Yes", "Maybe"], horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
 
