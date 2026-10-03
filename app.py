@@ -232,6 +232,23 @@ if submitted:
                 w.writeheader()
             w.writerow(row)
 
+        # Post response summary to Slack if webhook configured
+        if "slack" in st.secrets:
+            import json as _json
+            import urllib.request
+            try:
+                text = (f"*New GPI response*\n*Name:* {name} ({email})\n"
+                        f"*Department:* {department} | *Sleep:* {sleep_choice}\n"
+                        f"*Rating:* {rating}/10\n"
+                        f"*Goodness:* {pct[G]}% | *Passion:* {pct[P]}% | *Ignorance:* {pct[I]}%")
+                req = urllib.request.Request(
+                    st.secrets["slack"]["webhook_url"],
+                    data=_json.dumps({"text": text}).encode(),
+                    headers={"Content-Type": "application/json"})
+                urllib.request.urlopen(req)
+            except Exception as e:
+                st.warning(f"Could not post to Slack: {e}")
+
         # Email each response if secrets are configured
         if "email" in st.secrets:
             import smtplib
