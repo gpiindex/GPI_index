@@ -154,7 +154,7 @@ with st.form("self_check"):
         answers[idx] = next((g for t, g in shuffled if t == choice), None)
 
     st.markdown("---")
-    liked = st.text_area("Which points from today's session did you like or find meaningful? *")
+    liked = st.text_area("Share a few points from today's session that you liked or found meaningful *")
     more = st.radio("Would you like more sessions like this? *",
                     ["Yes", "Maybe"], horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
