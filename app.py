@@ -144,7 +144,7 @@ with st.form("self_check"):
     st.markdown("---")
     liked = st.text_area("Which points from today's session did you like or find meaningful? *")
     more = st.radio("Would you like more sessions like this? *",
-                    ["Yes", "Maybe", "No"], horizontal=True)
+                    ["Yes", "Maybe"], horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
 
     submitted = st.form_submit_button("Submit")
