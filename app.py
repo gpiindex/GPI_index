@@ -137,11 +137,11 @@ with st.form("self_check"):
     email = st.text_input("Email *")
     name = st.text_input("Name *")
     department = st.text_input("Department *")
+
+    st.markdown("---")
     sleep_choice = st.radio("Total sleep in a day *",
                             [t for t, _ in SLEEP_OPTIONS], index=None)
     sleep_guna = next((g for t, g in SLEEP_OPTIONS if t == sleep_choice), None)
-
-    st.markdown("---")
     answers = {}
     for idx, (label, options) in enumerate(QUESTIONS):
         shuffled = [options[j] for j in st.session_state.order[idx]]
