@@ -154,6 +154,8 @@ with st.form("self_check"):
         answers[idx] = next((g for t, g in shuffled if t == choice), None)
 
     st.markdown("---")
+    rating = st.slider("Please rate the session on the scale of 1-10 (10 being the highest)",
+                       min_value=1, max_value=10, value=10)
     liked = st.text_area("Share a few points from today's session that you liked or found meaningful *")
     more = st.radio("Would you like to attend more sessions like this? *",
                     ["Yes", "Maybe"], horizontal=True)
@@ -217,7 +219,7 @@ if submitted:
             "email": email, "name": name, "department": department,
             "sleep": sleep_choice,
             **{f"q{i+1}_{QUESTIONS[i][0][:30]}": g for i, g in answers.items()},
-            "liked": liked, "more_sessions": more, "comments": comments,
+            "session_rating": rating, "liked": liked, "more_sessions": more, "comments": comments,
             "goodness_pct": pct[G], "passion_pct": pct[P], "ignorance_pct": pct[I],
         }
         new_file = not os.path.exists(CSV_FILE)
