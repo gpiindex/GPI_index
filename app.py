@@ -231,6 +231,24 @@ if submitted:
                 w.writeheader()
             w.writerow(row)
 
+        # Email each response if secrets are configured
+        if "email" in st.secrets:
+            import smtplib
+            from email.message import EmailMessage
+            try:
+                msg = EmailMessage()
+                body = "\n".join(f"{k}: {v}" for k, v in row.items())
+                msg.set_content(body)
+                msg["Subject"] = f"GPI response - {name}"
+                msg["From"] = st.secrets["email"]["sender"]
+                msg["To"] = st.secrets["email"]["to"]
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+                    smtp.login(st.secrets["email"]["sender"],
+                               st.secrets["email"]["password"])
+                    smtp.send_message(msg)
+            except Exception as e:
+                st.warning(f"Could not email the response: {e}")
+
         # Persist to Google Sheets if secrets are configured
         if "gspread" in st.secrets:
             import gspread
