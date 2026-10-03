@@ -7,6 +7,14 @@ import streamlit as st
 
 st.set_page_config(page_title="5-Minute Self Check", page_icon="🪞", layout="centered")
 
+st.markdown("""
+<style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
+
 G, P, I = "Goodness", "Passion", "Ignorance"
 CSV_FILE = "responses.csv"
 
