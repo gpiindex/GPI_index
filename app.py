@@ -259,5 +259,5 @@ if submitted:
                 if not ws.get_all_values():
                     ws.append_row(list(row.keys()))
                 ws.append_row([row[k] for k in list(row.keys())])
-            except Exception:
-                pass
+            except Exception as e:
+                st.warning(f"Could not save to Google Sheet: {e}")
