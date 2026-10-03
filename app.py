@@ -161,7 +161,7 @@ with st.form("self_check"):
                     ["Yes", "Maybe"], index=None, horizontal=True)
     comments = st.text_area("Any comments or suggestions?")
 
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("Check")
 
 if submitted:
     errors = []
