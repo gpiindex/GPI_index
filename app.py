@@ -12,6 +12,10 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    [data-testid="stFooter"] {display: none;}
+    [data-testid="stStatusWidget"] {visibility: hidden;}
+    [data-testid="stAppViewBlockContainer"] {padding-top: 0;}
+    a[href*="streamlit.io"] {display: none;}
 </style>
 """, unsafe_allow_html=True)
 
